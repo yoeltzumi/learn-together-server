@@ -14,7 +14,7 @@ const sendPasswordResetEmail = async (email, token) => {
       from: "yoeltzumi@gmail.com",
       to: email,
       subject: "Password Reset",
-      text: "You have requested to reset your password. Click the link below to reset your password\n\n https://whatever",
+      text: `You have requested to reset your password. Click the link below to reset your password\n\n http://localhost:3001/auth/reset-password/${token}`,
     };
     await transporter.sendMail(mailOptions);
     console.log("Password reset email sent");

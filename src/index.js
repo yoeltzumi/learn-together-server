@@ -1,6 +1,8 @@
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/auth");
 require("./strategies/local");
@@ -11,8 +13,10 @@ const PORT = 3001;
 
 app.set("view engine", "ejs");
 
+app.use(cors());
 app.use(express.json());
-// app.use(express.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "AAAAAAAAAAAAAAAAAAAAAAAAA",

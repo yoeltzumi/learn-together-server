@@ -65,8 +65,8 @@ router.get("/reset-password/:token", async (req, res) => {
       return res.status(400).json({ message: "Invalid or expired token" });
     }
 
-    // res.render("reset-password", { token });
-    res.status(200).json({message: "Good shit"})
+    res.render("resetPassword", { token, error: false, success: false });
+    // res.status(200).json({message: "Good shit"})
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: "Error resetting password" });
@@ -74,6 +74,8 @@ router.get("/reset-password/:token", async (req, res) => {
 });
 
 router.post("/reset-password/:token", async (req, res) => {
+  console.log(req.body);
+  console.log(req.params);
   const { token } = req.params;
   const { password } = req.body;
 
@@ -95,9 +97,10 @@ router.post("/reset-password/:token", async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ message: "Password reset successful" });
+    // res.status(200).json({ message: "Password reset successful" });
+    res.status(200).render("resetPassword", { token, error: false, success: true });
   } catch (error) {
-    res.status(500).json({ message: "Error resetting password" });
+    res.status(500).render("resetPassword", { token, error: true, success: false });
   }
 });
 
