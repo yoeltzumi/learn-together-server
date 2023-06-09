@@ -62,22 +62,27 @@ router.get("/reset-password/:token", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+      return res.status(400).render("InvalidToken");
     }
 
-    res.render("resetPassword", { token, error: false, success: false });
+    res.render("ResetPassword", {
+      token,
+      error: undefined,
+      success: undefined,
+    });
     // res.status(200).json({message: "Good shit"})
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: "Error resetting password" });
+    res.render("ResetPassword", {
+      token,
+      error: "Error resetting the password",
+      success: undefined,
+    });
   }
 });
 
 router.post("/reset-password/:token", async (req, res) => {
-  console.log(req.body);
-  console.log(req.params);
   const { token } = req.params;
-  const { password } = req.body;
+  const { password, confirmPassword } = req.body;
 
   try {
     const user = await User.findOne({
@@ -86,7 +91,15 @@ router.post("/reset-password/:token", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+      return res.status(400).render("InvalidToken");
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(500).render("ResetPassword", {
+        token,
+        error: "The passwords do not match",
+        success: undefined,
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -97,10 +110,21 @@ router.post("/reset-password/:token", async (req, res) => {
 
     await user.save();
 
-    // res.status(200).json({ message: "Password reset successful" });
-    res.status(200).render("resetPassword", { token, error: false, success: true });
+    res
+      .status(200)
+      .render("ResetPassword", {
+        token,
+        error: undefined,
+        success: "Password reset successful",
+      });
   } catch (error) {
-    res.status(500).render("resetPassword", { token, error: true, success: false });
+    res
+      .status(500)
+      .render("ResetPassword", {
+        token,
+        error: "Error resetting the password",
+        success: undefined,
+      });
   }
 });
 
