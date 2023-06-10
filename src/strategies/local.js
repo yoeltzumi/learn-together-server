@@ -10,14 +10,12 @@ passport.use(
       usernameField: "email",
     },
     async (email, password, done) => {
-      console.log(email);
-      console.log(password);
 
       try {
         if (!email || !password) throw new Error("Missing credentials");
         const userDB = await User.findOne({ email });
         if (!userDB) {
-          throw new Error("User not found");
+          throw new Error("משתמש לא נמצא");
         }
         const isValid = comparePassword(password, userDB.password);
         if (isValid) {

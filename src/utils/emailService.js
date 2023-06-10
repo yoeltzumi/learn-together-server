@@ -1,20 +1,20 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: process.env.EMAIL_SERVICE,
   auth: {
-    user: "yoeltzumi@gmail.com",
-    pass: "jomozxrmgtahkmji",
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
 const sendPasswordResetEmail = async (email, token) => {
   try {
     const mailOptions = {
-      from: "yoeltzumi@gmail.com",
+      from: process.env.EMAIL_USER,
       to: email,
-      subject: "Password Reset",
-      text: `You have requested to reset your password. Click the link below to reset your password\n\n http://localhost:3001/auth/reset-password/${token}`,
+      subject: "איפוס סיסמה",
+      text: `ביקשת לאפס את הסיסמה שלך. לחץ על הקישור למטה כדי לאפס את הסיסמה שלך.\n\n http://localhost:3001/auth/reset-password/${token}`,
     };
     await transporter.sendMail(mailOptions);
     console.log("Password reset email sent");

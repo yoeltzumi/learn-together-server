@@ -35,7 +35,7 @@ router.post("/forgot-password", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "משתמש לא נמצא" });
     }
 
     const token = crypto.randomBytes(20).toString("hex");
@@ -74,7 +74,7 @@ router.get("/reset-password/:token", async (req, res) => {
   } catch (error) {
     res.render("ResetPassword", {
       token,
-      error: "Error resetting the password",
+      error: "שגיאה באיפוס הסיסמה",
       success: undefined,
     });
   }
@@ -97,7 +97,7 @@ router.post("/reset-password/:token", async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(500).render("ResetPassword", {
         token,
-        error: "The passwords do not match",
+        error: "הסיסמאות לא תואמות",
         success: undefined,
       });
     }
@@ -115,14 +115,14 @@ router.post("/reset-password/:token", async (req, res) => {
       .render("ResetPassword", {
         token,
         error: undefined,
-        success: "Password reset successful",
+        success: "סיסמה אופסה בהצלחה",
       });
   } catch (error) {
     res
       .status(500)
       .render("ResetPassword", {
         token,
-        error: "Error resetting the password",
+        error: "שגיאה באיפוס הסיסמה",
         success: undefined,
       });
   }
