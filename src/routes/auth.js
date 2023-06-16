@@ -15,16 +15,19 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { email } = req.body;
-  const userDB = await User.findOne({ email });
+  try {
+    const { email, userId, role } = req.body;
+    const userDB = await User.findOne({ $or: [{ userId, email }] });
 
-  if (userDB) {
-    res.status(400).send({ msg: "User already exists!" });
-  } else {
-    const password = hashPassword(req.body.password);
-    console.log(password);
-    const newUser = await User.create({ password, email });
-    res.sendStatus(201);
+    if (userDB) {
+      res.status(400).send({ message: "User already exists!" });
+    } else {
+      const password = hashPassword(req.body.password);
+      await User.create({ password, email, userId, role });
+      res.sendStatus(201);
+    }
+  } catch (error) {
+    res.status(400).send({ message: error });
   }
 });
 
@@ -110,21 +113,17 @@ router.post("/reset-password/:token", async (req, res) => {
 
     await user.save();
 
-    res
-      .status(200)
-      .render("ResetPassword", {
-        token,
-        error: undefined,
-        success: "סיסמה אופסה בהצלחה",
-      });
+    res.status(200).render("ResetPassword", {
+      token,
+      error: undefined,
+      success: "סיסמה אופסה בהצלחה",
+    });
   } catch (error) {
-    res
-      .status(500)
-      .render("ResetPassword", {
-        token,
-        error: "שגיאה באיפוס הסיסמה",
-        success: undefined,
-      });
+    res.status(500).render("ResetPassword", {
+      token,
+      error: "שגיאה באיפוס הסיסמה",
+      success: undefined,
+    });
   }
 });
 

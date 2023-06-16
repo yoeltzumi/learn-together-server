@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -23,15 +24,13 @@ app.use(
     secret: "AAAAAAAAAAAAAAAAAAAAAAAAA",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URL
+    })
   })
 );
 
 app.use("/auth", authRoute);
-
-app.use((req, res, next) => {
-  if (req.session.user) next();
-  else res.sendStatus(401);
-});
 
 app.use(passport.initialize());
 app.use(passport.session());

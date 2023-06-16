@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@learn-together.iwfunc3.mongodb.net/?retryWrites=true&w=majority`
-  )
+  .connect(process.env.MONGODB_URL)
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));

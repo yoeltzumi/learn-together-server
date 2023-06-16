@@ -10,6 +10,16 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  userId: {
+    type: mongoose.SchemaTypes.String,
+    required: true,
+    unique: true,
+  },
+  role: {
+    type: mongoose.SchemaTypes.String,
+    required: true,
+    unique: false,
+  },
   createdAt: {
     type: mongoose.SchemaTypes.Date,
     requied: true,
