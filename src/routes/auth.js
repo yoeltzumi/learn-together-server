@@ -9,8 +9,22 @@ const { sendPasswordResetEmail } = require("../utils/emailService");
 
 const router = Router();
 
+router.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return res.status(500).json({ message: "Logout failed" });
+    res.status(200).json({ message: "Logout successful" });
+  });
+});
+
+router.get("/checkAuth", (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.json({ user: req.user });
+  } else {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+});
+
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  console.log("Logged in");
   res.sendStatus(200);
 });
 

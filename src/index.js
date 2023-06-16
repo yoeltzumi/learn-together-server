@@ -30,9 +30,10 @@ app.use(
   })
 );
 
-app.use("/auth", authRoute);
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use("/auth", authRoute);
 
 app.listen(PORT, () => console.log(`Running Express Server on Port ${PORT}`));

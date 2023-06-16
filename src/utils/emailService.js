@@ -17,9 +17,7 @@ const sendPasswordResetEmail = async (email, token) => {
       text: `ביקשת לאפס את הסיסמה שלך. לחץ על הקישור למטה כדי לאפס את הסיסמה שלך.\n\n http://localhost:3001/auth/reset-password/${token}`,
     };
     await transporter.sendMail(mailOptions);
-    console.log("Password reset email sent");
   } catch (error) {
-    console.log("Error sending password reset email", error);
     throw error;
   }
 };
