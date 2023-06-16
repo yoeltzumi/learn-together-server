@@ -25,19 +25,19 @@ router.get("/checkAuth", (req, res) => {
 });
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  res.sendStatus(200);
+  res.status(200).json(req.user);
 });
 
 router.post("/register", async (req, res) => {
   try {
-    const { email, userId, role } = req.body;
+    const { email, userId, role, firstName, lastName } = req.body;
     const userDB = await User.findOne({ $or: [{ userId, email }] });
 
     if (userDB) {
       res.status(400).send({ message: "User already exists!" });
     } else {
       const password = hashPassword(req.body.password);
-      await User.create({ password, email, userId, role });
+      await User.create({ password, email, userId, role, firstName, lastName });
       res.sendStatus(201);
     }
   } catch (error) {

@@ -5,6 +5,16 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     required: true,
   },
+  firstName: {
+    type: mongoose.SchemaTypes.String,
+    required: true,
+    unique: false,
+  },
+  lastName: {
+    type: mongoose.SchemaTypes.String,
+    required: true,
+    unique: false,
+  },
   email: {
     type: mongoose.SchemaTypes.String,
     required: true,
