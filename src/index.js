@@ -7,6 +7,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/auth");
+const testsRoute = require("./routes/tests");
 require("./strategies/local");
 require("./database");
 
@@ -25,15 +26,15 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URL
-    })
+      mongoUrl: process.env.MONGODB_URL,
+    }),
   })
 );
-
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRoute);
+app.use("/tests", testsRoute);
 
 app.listen(PORT, () => console.log(`Running Express Server on Port ${PORT}`));

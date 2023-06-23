@@ -30,7 +30,6 @@ passport.use(
         if (!userId || !password || !role)
           throw new Error("Missing credentials");
         const userDB = await User.findOne({ userId });
-        console.log(userDB)
         if (!userDB) {
           throw new Error("משתמש לא נמצא");
         }
