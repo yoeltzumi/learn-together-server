@@ -8,9 +8,20 @@ const router = Router();
 router.post("/", teacherAuthorization, async (req, res) => {
   try {
     const { subject, startDate, endDate, moed, students } = req.body;
-    // todo check date
 
-    await Test.create({ subject, startDate, endDate, moed, students });
+    const startDateObject = new Date(startDate);
+    const endDateObject = new Date(endDate);
+
+    startDateObject.setHours(startDateObject.getHours() + 3);
+    endDateObject.setHours(endDateObject.getHours() + 3);
+
+    await Test.create({
+      subject,
+      startDate: startDateObject,
+      endDate: endDateObject,
+      moed,
+      students,
+    });
     res.sendStatus(201);
   } catch (error) {
     res.status(400).send({ message: error });

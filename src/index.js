@@ -8,6 +8,8 @@ const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/auth");
 const testsRoute = require("./routes/tests");
+const lessonsRoute = require("./routes/lessons");
+const attendanceRoute = require("./routes/attendance");
 require("./strategies/local");
 require("./database");
 
@@ -36,5 +38,7 @@ app.use(passport.session());
 
 app.use("/auth", authRoute);
 app.use("/tests", testsRoute);
+app.use("/lessons", lessonsRoute);
+app.use("/attendance", attendanceRoute);
 
 app.listen(PORT, () => console.log(`Running Express Server on Port ${PORT}`));
