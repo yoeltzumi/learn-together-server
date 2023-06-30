@@ -80,3 +80,4 @@ const LessonScheduleSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("lessons", LessonScheduleSchema);
+exports.Lesson = mongoose.model("lesson", LessonSchema);
