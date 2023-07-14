@@ -13,6 +13,8 @@ const attendanceRoute = require("./routes/attendance");
 const messagesRoute = require("./routes/messages");
 const homeworkRoute = require("./routes/homework");
 const gradesRoute = require("./routes/grades");
+const specialDatesRoute = require("./routes/specialDates");
+const behaviorRoute = require("./routes/behavior");
 require("./strategies/local");
 require("./database");
 
@@ -46,5 +48,7 @@ app.use("/attendance", attendanceRoute);
 app.use("/messages", messagesRoute);
 app.use("/homework", homeworkRoute);
 app.use("/grades", gradesRoute);
+app.use("/specialDates", specialDatesRoute);
+app.use("/behavior", behaviorRoute);
 
 app.listen(PORT, () => console.log(`Running Express Server on Port ${PORT}`));

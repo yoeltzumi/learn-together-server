@@ -20,6 +20,11 @@ const LessonSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.Boolean,
     default: false,
   },
+  lessonNumber: {
+    type: mongoose.SchemaTypes.Number,
+    required: false,
+    unique: false,
+  },
 });
 
 const LessonScheduleSchema = new mongoose.Schema({
